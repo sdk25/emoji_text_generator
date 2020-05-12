@@ -1,23 +1,31 @@
-import React from "react"
+import React, {useEffect, useState} from "react"
 import TextField from "@material-ui/core/TextField"
-import Grid from "@material-ui/core/Grid";
-
-const defaults = {
-    innerChar: "█",
-    outerChar: "░",
-    text: "жесть",
-    textFormatted:
-        "░░░░░░░░░░░░░░░░░░░░░░░░░\n" +
-        "░█░█░█░███░████░███░█░░░░\n" +
-        "░█████░█░░░█░░█░░█░░█░░░░\n" +
-        "░░███░░███░█░░░░░█░░████░\n" +
-        "░█████░█░░░█░░█░░█░░█░░█░\n" +
-        "░█░█░█░███░████░░█░░████░\n" +
-        "░░░░░░░░░░░░░░░░░░░░░░░░░"
-}
-
+import Grid from "@material-ui/core/Grid"
+import {charTable} from "constants/charTable"
 
 export default function Application() {
+
+    const [innerChar, setInnerChar] = useState("█")
+    const [outerChar, setOuterChar] = useState("░")
+    const [inputText, setInputText] = useState("жесть")
+    const [outputText, setOutputText] = useState("")
+
+    useEffect(() => {
+        const newOutputText = inputText.toLowerCase()
+            .split("")
+            .map(char => charTable[char] || [])
+            .reduce((rows, charArray) => { // TODO make it pure
+                charArray.forEach((rowPart, rowIndex) => {
+                    let row = rows[rowIndex] || []
+                    rows[rowIndex] = row.concat(rowPart)
+                })
+                return rows
+            }, [])
+            .map(row => row.map(flag => flag ? innerChar : outerChar).join(""))
+            .join("\n")
+
+        setOutputText(newOutputText)
+    }, [innerChar, outerChar, inputText])
 
     return (
         <Grid container spacing={3} style={{maxWidth: 800}}>
@@ -28,8 +36,8 @@ export default function Application() {
                     margin="normal"
                     multiline
                     rows={7}
-                    defaultValue={defaults.textFormatted}
                     variant="outlined"
+                    value={outputText}
                 />
             </Grid>
             <Grid item xs={8}>
@@ -37,7 +45,8 @@ export default function Application() {
                     label="input"
                     fullWidth
                     margin="normal"
-                    defaultValue={defaults.text}
+                    value={inputText}
+                    onChange={event => setInputText(event.target.value)}
                 />
             </Grid>
             <Grid item xs={4}>
@@ -46,7 +55,8 @@ export default function Application() {
                         label="inner"
                         fullWidth
                         margin="normal"
-                        defaultValue={defaults.innerChar}
+                        value={innerChar}
+                        onChange={event => setInnerChar(event.target.value)}
                     />
                 </Grid>
                 <Grid item xs={12}>
@@ -54,7 +64,8 @@ export default function Application() {
                         label="outer"
                         fullWidth
                         margin="normal"
-                        defaultValue={defaults.outerChar}
+                        value={outerChar}
+                        onChange={event => setOuterChar(event.target.value)}
                     />
                 </Grid>
             </Grid>

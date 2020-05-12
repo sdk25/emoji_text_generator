@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.js": "/emoji_text_generator/static/js/main.72db0ccf.chunk.js",
-    "main.js.map": "/emoji_text_generator/static/js/main.72db0ccf.chunk.js.map",
+    "main.js": "/emoji_text_generator/static/js/main.8c6a0244.chunk.js",
+    "main.js.map": "/emoji_text_generator/static/js/main.8c6a0244.chunk.js.map",
     "runtime~main.js": "/emoji_text_generator/static/js/runtime~main.ce804f2b.js",
     "runtime~main.js.map": "/emoji_text_generator/static/js/runtime~main.ce804f2b.js.map",
     "static/js/2.308f21c0.chunk.js": "/emoji_text_generator/static/js/2.308f21c0.chunk.js",
     "static/js/2.308f21c0.chunk.js.map": "/emoji_text_generator/static/js/2.308f21c0.chunk.js.map",
     "index.html": "/emoji_text_generator/index.html",
-    "precache-manifest.2c82a6155b01d34dfd89a10bad2c39ba.js": "/emoji_text_generator/precache-manifest.2c82a6155b01d34dfd89a10bad2c39ba.js",
+    "precache-manifest.4195d40144df83ba86330e8ccb43573c.js": "/emoji_text_generator/precache-manifest.4195d40144df83ba86330e8ccb43573c.js",
     "service-worker.js": "/emoji_text_generator/service-worker.js"
   }
 }

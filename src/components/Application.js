@@ -2,12 +2,13 @@ import React, {useEffect, useState} from "react"
 import TextField from "@material-ui/core/TextField"
 import Grid from "@material-ui/core/Grid"
 import {charTable} from "constants/charTable"
-import Card from "@material-ui/core/Card";
-import CardContent from '@material-ui/core/CardContent';
-import makeStyles from "@material-ui/core/styles/makeStyles";
+import Card from "@material-ui/core/Card"
+import CardContent from '@material-ui/core/CardContent'
+import makeStyles from "@material-ui/core/styles/makeStyles"
+import _ from "lodash"
 
 const useStyles = makeStyles({
-    rootCard: {
+    card: {
         maxWidth: 800,
         backgroundColor: "#f0ffef"
     }
@@ -23,25 +24,22 @@ export default function Application() {
     const classes = useStyles();
 
     useEffect(() => {
-        const newOutputText = inputText
+        const arrayOfCharsArrays = inputText
             .toLowerCase()
             .split("")
-            .map(char => charTable[char] || [])
-            .reduce((rows, charArray) => { // TODO make it pure
-                charArray.forEach((rowPart, rowIndex) => {
-                    let row = rows[rowIndex] || []
-                    rows[rowIndex] = row.concat(rowPart)
-                })
-                return rows
-            }, [])
-            .map(row => row.map(flag => flag ? innerChar : outerChar).join(""))
+            .map(char => _.get(charTable, char, []))
+
+        const rowArrayToString = rowArray => rowArray.map(flag => flag ? innerChar : outerChar).join("")
+
+        const newOutputText = _.zip(...arrayOfCharsArrays)
+            .map(rowArrays => outerChar + rowArrays.map(rowArrayToString).join(outerChar) + outerChar)
             .join("\n")
 
         setOutputText(newOutputText)
     }, [innerChar, outerChar, inputText])
 
     return (
-        <Card variant="outlined" className={classes.rootCard}>
+        <Card variant="outlined" className={classes.card}>
             <CardContent>
                 <Grid container spacing={2}>
                     <Grid item xs={12}>

@@ -1,5 +1,3 @@
 ## Make your text from emoji
 
-```
-npm install && npm run start
-```
+[Look at GithubPages](http://25DimoN25.github.io/emoji_text_generator)

@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react"
-import _ from "lodash"
+import * as R from 'ramda'
 import TextField from "@material-ui/core/TextField"
 import Grid from "@material-ui/core/Grid"
 import {charTable} from "constants/charTable"
@@ -25,8 +25,8 @@ const useStyles = makeStyles({
 export default function Application() {
 
     const [withBorder, setWithBorder] = useState(true)
-    const [innerChar, setInnerChar] = useState("█")
-    const [outerChar, setOuterChar] = useState("░")
+    const [innerChar, setInnerChar] = useState("🟥")
+    const [outerChar, setOuterChar] = useState("🤍")
     const [inputText, setInputText] = useState("жесть")
     const [outputText, setOutputText] = useState("")
 
@@ -43,29 +43,25 @@ export default function Application() {
     }
 
     useEffect(() => {
-        const arrayOfCharArrays = inputText
+        const charArrays = inputText
             .toLowerCase()
             .split("")
             .map(char => charTable[char])
             .filter(charArray => charArray !== undefined) // ignore unknown chars
 
-        const rowArrayToString = rowArray => rowArray !== undefined
-            ? rowArray.map(flag => flag ? innerChar : outerChar).join("")
-            : [] // when chars have a different height
+        const rows = R.transpose(charArrays).map(R.pipe(R.intersperse([0]), R.flatten))
 
-        const rows = _.zip(...arrayOfCharArrays)
-            .map(rowArrays => rowArrays.map(rowArrayToString).join(outerChar))
+        const newOutputText = (
+            withBorder ? (() => {
+                const sideBorderedRows = rows.map(row => Array.of(0).concat(row).concat(0))
+                const additionalRow = Array.of(Array.from(Array(sideBorderedRows[0]?.length || 0), () => 0))
+                return additionalRow.concat(sideBorderedRows).concat(additionalRow)
+            })() : (() => {
+                return rows
+            })()
+        ).map(R.pipe(R.map(flag => flag ? innerChar : outerChar), R.join(""))).join("\n")
 
-        if (withBorder) {
-            const sideBorderedRows = rows.map(row => outerChar + row + outerChar)
-            const additionalRow = Array.of(outerChar.repeat(sideBorderedRows[0]?.length || 0))
-            const fullBorderedRows = additionalRow.concat(sideBorderedRows).concat(additionalRow)
-            const newOutputText = fullBorderedRows.join("\n")
-            setOutputText(newOutputText)
-        } else {
-            const newOutputText = rows.join("\n")
-            setOutputText(newOutputText)
-        }
+        setOutputText(newOutputText)
     }, [withBorder, innerChar, outerChar, inputText])
 
     return (

@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from "react"
+import _ from "lodash"
 import TextField from "@material-ui/core/TextField"
 import Grid from "@material-ui/core/Grid"
 import {charTable} from "constants/charTable"
@@ -7,17 +8,17 @@ import CardContent from '@material-ui/core/CardContent'
 import makeStyles from "@material-ui/core/styles/makeStyles"
 import FormControlLabel from "@material-ui/core/FormControlLabel"
 import Checkbox from "@material-ui/core/Checkbox"
-import _ from "lodash"
-import Popover from "@material-ui/core/Popover";
-import Typography from "@material-ui/core/Typography";
+import Popover from "@material-ui/core/Popover"
+import Typography from "@material-ui/core/Typography"
 
 const useStyles = makeStyles({
     card: {
         maxWidth: 800,
-        backgroundColor: "#f0ffef"
+        backgroundColor: "#ECEFF1"
     },
     popover: {
-        padding: 30,
+        padding: 20,
+        backgroundColor: "#CFD8DC"
     },
 })
 
@@ -29,36 +30,46 @@ export default function Application() {
     const [inputText, setInputText] = useState("жесть")
     const [outputText, setOutputText] = useState("")
 
-    const [popoverTarget, setPopoverTarget] = useState(null);
+    const [popoverTarget, setPopoverTarget] = useState(null)
 
-    const classes = useStyles();
+    const classes = useStyles()
 
     const outputTextClickHandler = event => {
-        event.target.select()
-        document.execCommand("Copy")
-        setPopoverTarget(event.currentTarget);
+        if (event.target.type === "textarea") {
+            event.target.select()
+            document.execCommand("Copy")
+            setPopoverTarget(event.currentTarget)
+        }
     }
 
     useEffect(() => {
-        const arrayOfCharsArrays = inputText
+        const arrayOfCharArrays = inputText
             .toLowerCase()
             .split("")
-            .map(char => _.get(charTable, char, []))
+            .map(char => charTable[char])
+            .filter(charArray => charArray !== undefined) // ignore unknown chars
 
-        const rowArrayToString = rowArray => rowArray.map(flag => flag ? innerChar : outerChar).join("")
+        const rowArrayToString = rowArray => rowArray !== undefined
+            ? rowArray.map(flag => flag ? innerChar : outerChar).join("")
+            : [] // when chars have a different height
 
-        const rows = _.zip(...arrayOfCharsArrays)
+        const rows = _.zip(...arrayOfCharArrays)
             .map(rowArrays => rowArrays.map(rowArrayToString).join(outerChar))
 
-        const newOutputText = (
-            withBorder ? rows.map(row => outerChar + row + outerChar) : rows
-        ).join("\n")
-
-        setOutputText(newOutputText)
+        if (withBorder) {
+            const sideBorderedRows = rows.map(row => outerChar + row + outerChar)
+            const additionalRow = Array.of(outerChar.repeat(sideBorderedRows[0]?.length || 0))
+            const fullBorderedRows = additionalRow.concat(sideBorderedRows).concat(additionalRow)
+            const newOutputText = fullBorderedRows.join("\n")
+            setOutputText(newOutputText)
+        } else {
+            const newOutputText = rows.join("\n")
+            setOutputText(newOutputText)
+        }
     }, [withBorder, innerChar, outerChar, inputText])
 
     return (
-        <Card variant="outlined" className={classes.card}>
+        <Card className={classes.card}>
             <CardContent>
                 <Grid container spacing={2}>
                     <Grid item xs={12}>
@@ -66,7 +77,6 @@ export default function Application() {
                             label="output"
                             fullWidth
                             multiline
-                            rows={7}
                             variant="outlined"
                             value={outputText}
                             onClick={outputTextClickHandler}

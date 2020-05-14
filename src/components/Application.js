@@ -91,6 +91,7 @@ export default function Application() {
                                 <Typography
                                     className={classes.typographyOutput}
                                     noWrap={true}
+                                    align={"center"}
                                 >
                                     {outputText}
                                 </Typography>
@@ -106,37 +107,41 @@ export default function Application() {
                         <Alert severity="success" variant="filled">Copied!</Alert>
                     </Snackbar>
                 </Grid>
-                <Grid item xs={8}>
-                    <TextField
-                        label="input"
-                        fullWidth
-                        value={inputText}
-                        onChange={handleTextFieldChangeInput}
-                    />
-                    <FormControlLabel
-                        label="use border"
-                        control={
-                            <Checkbox
-                                color="primary"
-                                checked={withBorder}
-                                onChange={handleCheckboxChangeWithBorder}
+                <Grid item xs={12}>
+                    <Grid container spacing={2}>
+                        <Grid item xs={8}>
+                            <TextField
+                                label="input"
+                                fullWidth
+                                value={inputText}
+                                onChange={handleTextFieldChangeInput}
                             />
-                        }
-                    />
-                </Grid>
-                <Grid item xs={4}>
-                    <TextField
-                        label="inner"
-                        fullWidth
-                        value={innerChar}
-                        onChange={handleTextFieldChangeInner}
-                    />
-                    <TextField
-                        label="outer"
-                        fullWidth
-                        value={outerChar}
-                        onChange={handleTextFieldChangeOuter}
-                    />
+                            <FormControlLabel
+                                label="use border"
+                                control={
+                                    <Checkbox
+                                        color="primary"
+                                        checked={withBorder}
+                                        onChange={handleCheckboxChangeWithBorder}
+                                    />
+                                }
+                            />
+                        </Grid>
+                        <Grid item xs={4}>
+                            <TextField
+                                label="inner"
+                                fullWidth
+                                value={innerChar}
+                                onChange={handleTextFieldChangeInner}
+                            />
+                            <TextField
+                                label="outer"
+                                fullWidth
+                                value={outerChar}
+                                onChange={handleTextFieldChangeOuter}
+                            />
+                        </Grid>
+                    </Grid>
                 </Grid>
             </Grid>
         </Paper>

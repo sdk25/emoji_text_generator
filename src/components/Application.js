@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from "react"
+import useLocalStorage from "utils/useLocalStorage"
 import * as R from 'ramda'
 import TextField from "@material-ui/core/TextField"
 import Grid from "@material-ui/core/Grid"
@@ -32,11 +33,12 @@ const useStyles = makeStyles({
 export default function Application() {
     const classes = useStyles()
 
-    const [withBorder, setWithBorder] = useState(true)
-    const [innerChar, setInnerChar] = useState("🟥")
-    const [outerChar, setOuterChar] = useState("🤍")
-    const [inputText, setInputText] = useState("жесть")
-    const [outputText, setOutputText] = useState("")
+    const [withBorder, setWithBorder] = useLocalStorage("withBorder", true)
+    const [innerChar, setInnerChar] = useLocalStorage("innerChar", "🟥")
+    const [outerChar, setOuterChar] = useLocalStorage("outerChar", "🤍")
+    const [inputText, setInputText] = useLocalStorage("inputText", "HELLO")
+
+    const [outputText, setOutputText] = useState(() => "")
     const [showCopiedAlert, setShowCopiedAlert] = useState(false)
 
     const handleCheckboxChangeWithBorder = event => setWithBorder(event.target.checked)

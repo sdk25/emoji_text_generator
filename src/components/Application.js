@@ -23,7 +23,7 @@ const useStyles = makeStyles({
         backgroundColor: "#ECEFF1"
     },
     typographyOutput: {
-        whiteSpace: "pre-wrap"
+        whiteSpace: "pre"
     },
     cardOutput: {
         backgroundColor: "#CFD8DC"
@@ -88,7 +88,10 @@ export default function Application() {
                     <Card className={classes.cardOutput}>
                         <CardActionArea onClick={handleCardClickOutput}>
                             <CardContent>
-                                <Typography className={classes.typographyOutput}>
+                                <Typography
+                                    className={classes.typographyOutput}
+                                    noWrap={true}
+                                >
                                     {outputText}
                                 </Typography>
                             </CardContent>

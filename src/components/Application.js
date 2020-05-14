@@ -21,10 +21,6 @@ const useStyles = makeStyles({
         maxWidth: 800,
         backgroundColor: "#ECEFF1"
     },
-    typographyPopover: {
-        padding: 15,
-        backgroundColor: "#CFD8DC"
-    },
     typographyOutput: {
         whiteSpace: 'pre-wrap'
     },
@@ -54,7 +50,11 @@ export default function Application() {
 
     const handleCardClickOutput = () => {
         navigator.clipboard.writeText(outputText)
-        setShowCopiedAlert(true)
+            .then(() => {
+                setShowCopiedAlert(true)
+            }, () => {
+                console.log("'navigator.clipboard.writeText' isn't supported :(");
+            })
     }
 
     useEffect(() => {

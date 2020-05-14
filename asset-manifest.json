@@ -1,19 +1,19 @@
 {
   "files": {
-    "main.js": "/emoji_text_generator/static/js/main.b0d5625b.chunk.js",
-    "main.js.map": "/emoji_text_generator/static/js/main.b0d5625b.chunk.js.map",
+    "main.js": "/emoji_text_generator/static/js/main.1f0e04f5.chunk.js",
+    "main.js.map": "/emoji_text_generator/static/js/main.1f0e04f5.chunk.js.map",
     "runtime-main.js": "/emoji_text_generator/static/js/runtime-main.2c45f1bd.js",
     "runtime-main.js.map": "/emoji_text_generator/static/js/runtime-main.2c45f1bd.js.map",
     "static/js/2.19fa8ff2.chunk.js": "/emoji_text_generator/static/js/2.19fa8ff2.chunk.js",
     "static/js/2.19fa8ff2.chunk.js.map": "/emoji_text_generator/static/js/2.19fa8ff2.chunk.js.map",
     "index.html": "/emoji_text_generator/index.html",
-    "precache-manifest.aff46cab92f682d0305ff49dea9a1f01.js": "/emoji_text_generator/precache-manifest.aff46cab92f682d0305ff49dea9a1f01.js",
+    "precache-manifest.6d6e9305a59314a0311fdd872faca689.js": "/emoji_text_generator/precache-manifest.6d6e9305a59314a0311fdd872faca689.js",
     "service-worker.js": "/emoji_text_generator/service-worker.js",
     "static/js/2.19fa8ff2.chunk.js.LICENSE.txt": "/emoji_text_generator/static/js/2.19fa8ff2.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.2c45f1bd.js",
     "static/js/2.19fa8ff2.chunk.js",
-    "static/js/main.b0d5625b.chunk.js"
+    "static/js/main.1f0e04f5.chunk.js"
   ]
 }

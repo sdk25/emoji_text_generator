@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "f2c3152b3d57f2a5a57932566561538e",
+    "revision": "9e42a2761ce5390a9eba7e202316ed57",
     "url": "/emoji_text_generator/index.html"
   },
   {
@@ -8,8 +8,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/emoji_text_generator/static/js/2.9cbe62c9.chunk.js"
   },
   {
-    "revision": "f9b3f7a7c4ab8469ef7c",
-    "url": "/emoji_text_generator/static/js/main.c857a7fc.chunk.js"
+    "revision": "7e7144fd7608cf49c4a5",
+    "url": "/emoji_text_generator/static/js/main.60a40f3d.chunk.js"
   },
   {
     "revision": "76b46a476762c760dcb7",

@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react"
 import useLocalStorage from "utils/useLocalStorage"
-import * as R from 'ramda'
+import * as R from "ramda"
 import TextField from "@material-ui/core/TextField"
 import Grid from "@material-ui/core/Grid"
 import {charTable} from "constants/charTable"
@@ -12,7 +12,7 @@ import Paper from "@material-ui/core/Paper"
 import Card from "@material-ui/core/Card"
 import CardActionArea from "@material-ui/core/CardActionArea"
 import CardContent from "@material-ui/core/CardContent"
-import Alert from '@material-ui/lab/Alert'
+import Alert from "@material-ui/lab/Alert"
 import Snackbar from "@material-ui/core/Snackbar"
 
 const useStyles = makeStyles({
@@ -23,7 +23,7 @@ const useStyles = makeStyles({
         backgroundColor: "#ECEFF1"
     },
     typographyOutput: {
-        whiteSpace: 'pre-wrap'
+        whiteSpace: "pre-wrap"
     },
     cardOutput: {
         backgroundColor: "#CFD8DC"
@@ -98,7 +98,7 @@ export default function Application() {
                         open={showCopiedAlert}
                         onClose={handleSnackbarCloseCopied}
                         autoHideDuration={2000}
-                        anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
+                        anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
                     >
                         <Alert severity="success" variant="filled">Copied!</Alert>
                     </Snackbar>

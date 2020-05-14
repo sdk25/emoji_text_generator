@@ -1,14 +1,17 @@
-import {useEffect, useState} from "react"
+import {useState} from "react"
+import * as R from "ramda"
 
-export default function useLocalStorage(key, defaultVal) {
+export default function useLocalStorage(key, defaultValue) {
     const [value, setValue] = useState(() => {
-        return JSON.parse(localStorage.getItem(key)) || defaultVal
+        const storageValue = localStorage.getItem(key)
+        return R.isNil(storageValue) ? defaultValue : JSON.parse(storageValue)
     })
 
-    useEffect(() => {
-        localStorage.setItem(key, JSON.stringify(value))
-    }, [value])
+    const setValueUpdateStorage = newValue => {
+        localStorage.setItem(key, JSON.stringify(newValue))
+        setValue(newValue)
+    }
 
-    return [value, setValue]
+    return [value, setValueUpdateStorage]
 }
 

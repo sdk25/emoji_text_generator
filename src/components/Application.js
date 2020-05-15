@@ -38,25 +38,51 @@ export default function Application() {
     const [outerChar, setOuterChar] = useLocalStorage("outerChar", "🤍")
     const [inputText, setInputText] = useLocalStorage("inputText", "HELLO")
 
-    const [outputText, setOutputText] = useState(() => "")
-    const [showCopiedAlert, setShowCopiedAlert] = useState(false)
+    const [outputText, setOutputText] = useState("")
+    const [alertSettings, setAlertSettings] = useState({isVisible: false})
 
     const handleCheckboxChangeWithBorder = event => setWithBorder(event.target.checked)
     const handleTextFieldChangeInner = event => setInnerChar(event.target.value)
     const handleTextFieldChangeOuter = event => setOuterChar(event.target.value)
     const handleTextFieldChangeInput = event => setInputText(event.target.value)
 
-    const handleSnackbarCloseCopied = (event, reason) => {
-        if (reason !== "clickaway") setShowCopiedAlert(false)
+    const handleSnackbarCloseAlert = (event, reason) => {
+        if (reason !== "clickaway") {
+            setAlertSettings({isVisible: false})
+        }
     }
 
+
     const handleCardClickOutput = () => {
-        navigator.clipboard.writeText(outputText)
-            .then(() => {
-                setShowCopiedAlert(true)
-            }, () => {
-                console.log("'navigator.clipboard.writeText' isn't supported :(");
-            })
+        if (navigator.clipboard) {
+            navigator.clipboard.writeText(outputText)
+                .then(() => {
+                    setAlertSettings({isVisible: true, type: "success", text: "Copied!"})
+                }, error => {
+                    setAlertSettings({isVisible: true, type: "error", text: "navigator.clipboard.writeText(outputText) call failed: " + error})
+                })
+        } else {
+            const textArea = document.createElement("textarea")
+            textArea.value = outputText
+
+            textArea.style.top = "0"
+            textArea.style.left = "0"
+            textArea.style.position = "fixed"
+
+            document.body.appendChild(textArea)
+            textArea.focus()
+            textArea.select()
+
+            try {
+                document.execCommand("copy")
+                    ? setAlertSettings({isVisible: true, type: "success", text: "Copied!"})
+                    : setAlertSettings({isVisible: true, type: "error", text: "document.execCommand(\"copy\") call failed"})
+            } catch (error) {
+                setAlertSettings({isVisible: true, type: "error", text: "document.execCommand(\"copy\") call failed: " + error})
+            } finally {
+                document.body.removeChild(textArea)
+            }
+        }
     }
 
     useEffect(() => {
@@ -99,12 +125,17 @@ export default function Application() {
                         </CardActionArea>
                     </Card>
                     <Snackbar
-                        open={showCopiedAlert}
-                        onClose={handleSnackbarCloseCopied}
+                        open={alertSettings.isVisible}
+                        onClose={handleSnackbarCloseAlert}
                         autoHideDuration={2000}
                         anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
                     >
-                        <Alert severity="success" variant="filled">Copied!</Alert>
+                        <Alert
+                            variant="filled"
+                            severity={alertSettings.type}
+                        >
+                            {alertSettings.text}
+                        </Alert>
                     </Snackbar>
                 </Grid>
                 <Grid item xs={12}>
